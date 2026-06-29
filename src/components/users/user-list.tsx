@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useDashboardStore } from "@/lib/store"
 import { cn, formatDate, formatDistance, formatDuration } from "@/lib/utils"
-import { Card } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   BatteryFull,
   BatteryMedium,
@@ -45,12 +45,12 @@ export function UserList() {
 
   return (
     <Card>
-      <div className="flex items-center justify-between p-3 pb-0">
-        <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-          Monitored Users
-        </span>
-        <Badge variant="info">{users.length} active</Badge>
-      </div>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Monitored Users</CardTitle>
+          <Badge variant="info">{users.length} active</Badge>
+        </div>
+      </CardHeader>
       <ScrollArea className="mt-2 max-h-[320px]">
         <div className="flex flex-col gap-1 p-2 pt-0">
           {users.map((user) => (
