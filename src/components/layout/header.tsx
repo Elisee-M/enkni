@@ -1,11 +1,11 @@
 "use client"
 
-import { Bell, Menu, Zap } from "lucide-react"
+import { Bell, Menu, Cane } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { RoleSwitcher } from "./role-switcher"
 import { ThemeToggle } from "./theme-toggle"
 import { useDashboardStore } from "@/lib/store"
-import { cn, formatDate } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function Header() {
   const toggleSidebar = useDashboardStore((s) => s.toggleSidebar)
@@ -14,16 +14,15 @@ export function Header() {
   const role = useDashboardStore((s) => s.caregiverRole)
 
   return (
-    <header className="flex h-14 items-center justify-between border-b border-zinc-800 bg-zinc-950/80 px-4 backdrop-blur-md">
+    <header className="flex h-14 items-center justify-between border-b border-zinc-800/50 bg-zinc-950/80 px-4 backdrop-blur-md">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="lg:hidden">
+        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="md:hidden">
           <Menu className="h-4 w-4" />
         </Button>
-        <div className="hidden items-center gap-2 sm:flex">
-          <Zap className="h-3.5 w-3.5 text-blue-400" />
-          <span className="text-xs text-zinc-500">
-            Live Dashboard — {formatDate(new Date().toISOString())}
-          </span>
+        <div className="flex items-center gap-2">
+          <Cane className="h-4 w-4 text-blue-500 md:hidden" />
+          <span className="text-sm font-semibold text-zinc-100">ENKONI</span>
+          <span className="hidden text-xs text-zinc-600 sm:inline">| Live Dashboard</span>
         </div>
       </div>
 
@@ -48,8 +47,8 @@ export function Header() {
             </span>
           )}
         </Button>
-        <div className="flex items-center gap-2 border-l border-zinc-800 pl-2">
-          <div className="h-7 w-7 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-semibold text-white">
+        <div className="flex items-center gap-2 border-l border-zinc-800/50 pl-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-[10px] font-semibold text-white">
             {role === "admin" ? "AD" : "VW"}
           </div>
           <span className="hidden text-sm capitalize text-zinc-300 sm:block">{role}</span>
