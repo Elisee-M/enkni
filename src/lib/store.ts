@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback } from "react"
 import { create } from "zustand"
 import type {
   DashboardState,
@@ -95,7 +96,7 @@ export function useSimulatedUpdates() {
   const updateBatteryLevel = useDashboardStore((s) => s.updateBatteryLevel)
   const addAlert = useDashboardStore((s) => s.addAlert)
 
-  const simulateLocationUpdate = (userId: string) => {
+  const simulateLocationUpdate = useCallback((userId: string) => {
     const user = useDashboardStore.getState().users.find((u) => u.id === userId)
     if (!user) return
 
@@ -114,9 +115,9 @@ export function useSimulatedUpdates() {
     }
 
     updateUserLocation(userId, newLocation)
-  }
+  }, [updateUserLocation])
 
-  const simulateBatteryDrain = (userId: string) => {
+  const simulateBatteryDrain = useCallback((userId: string) => {
     const user = useDashboardStore.getState().users.find((u) => u.id === userId)
     if (!user) return
 
@@ -135,7 +136,7 @@ export function useSimulatedUpdates() {
         acknowledged: false,
       })
     }
-  }
+  }, [updateBatteryLevel, addAlert])
 
   return { simulateLocationUpdate, simulateBatteryDrain }
 }
