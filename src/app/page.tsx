@@ -8,6 +8,7 @@ import { DeviceStatus } from "@/components/device/device-status"
 import { AlertPanel } from "@/components/alerts/alert-panel"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
+import { ReportExport } from "@/components/metrics/report-export"
 import { UserProfileView } from "@/components/profiles/user-profile"
 import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
 import { Button } from "@/components/ui/button"
@@ -166,6 +167,7 @@ export default function Home() {
             <RefreshCw className="h-3 w-3 animate-spin text-emerald-500" />
             <span className="text-[10px] text-zinc-600">Live</span>
           </div>
+          <ReportExport />
 
           <div className="flex items-center gap-1 rounded-lg bg-zinc-900 p-1">
             {viewTabs.map((tab) => {
