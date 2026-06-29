@@ -107,7 +107,7 @@ export function UserProfileView() {
             <div className="space-y-2">
               {profile.preferredAlertMethods.map((method) => {
                 let icon = Smartphone
-                let label = method
+                let label: string = method
                 if (method === "sms") {
                   icon = MessageSquare
                   label = "SMS"
