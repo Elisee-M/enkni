@@ -92,7 +92,7 @@ function MapContent() {
       center={center as [number, number]}
       zoom={15}
       style={{ height: "100%", width: "100%", borderRadius: "0.75rem" }}
-      zoomControl={false}
+      zoomControl={true}
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
