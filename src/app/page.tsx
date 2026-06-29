@@ -11,6 +11,7 @@ import { TripTimeline } from "@/components/metrics/trip-timeline"
 import { ReportExport } from "@/components/metrics/report-export"
 import { UserProfileView } from "@/components/profiles/user-profile"
 import { NotificationPreferences } from "@/components/profiles/notification-preferences"
+import { GeofenceEditor } from "@/components/map/geofence-editor"
 import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -61,11 +62,12 @@ function ViewContent() {
     case "profile":
       return (
         <div className="flex flex-col gap-4 lg:flex-row">
-          <div className="flex-1">
+          <div className="min-w-0 flex-[2]">
             <UserProfileView />
           </div>
-          <div className="w-full lg:w-80">
+          <div className="flex w-full flex-col gap-4 lg:w-80">
             <NotificationPreferences />
+            <GeofenceEditor />
           </div>
         </div>
       )

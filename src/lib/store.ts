@@ -8,6 +8,7 @@ import type {
   Alert,
   LocationData,
   CaregiverRole,
+  GeofenceZone,
 } from "@/types"
 import { mockUsers, mockAlerts } from "./mock-data"
 
@@ -25,6 +26,9 @@ interface DashboardStore extends DashboardState {
   getUnacknowledgedAlerts: () => Alert[]
   caregiverRole: CaregiverRole
   setCaregiverRole: (role: CaregiverRole) => void
+  updateGeofenceZones: (userId: string, zones: GeofenceZone[]) => void
+  addGeofenceZone: (userId: string, zone: GeofenceZone) => void
+  removeGeofenceZone: (userId: string, zoneId: string) => void
 }
 
 export const useDashboardStore = create<DashboardStore>((set, get) => ({
@@ -84,6 +88,31 @@ export const useDashboardStore = create<DashboardStore>((set, get) => ({
     })),
 
   setCaregiverRole: (role) => set({ caregiverRole: role }),
+
+  updateGeofenceZones: (userId, zones) =>
+    set((s) => ({
+      users: s.users.map((u) =>
+        u.id === userId ? { ...u, geofenceZones: zones } : u,
+      ),
+    })),
+
+  addGeofenceZone: (userId, zone) =>
+    set((s) => ({
+      users: s.users.map((u) =>
+        u.id === userId
+          ? { ...u, geofenceZones: [...u.geofenceZones, zone] }
+          : u,
+      ),
+    })),
+
+  removeGeofenceZone: (userId, zoneId) =>
+    set((s) => ({
+      users: s.users.map((u) =>
+        u.id === userId
+          ? { ...u, geofenceZones: u.geofenceZones.filter((z) => z.id !== zoneId) }
+          : u,
+      ),
+    })),
 
   addAlert: (alert) => set((s) => ({ alerts: [alert, ...s.alerts].slice(0, 100) })),
 
