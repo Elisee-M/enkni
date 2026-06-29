@@ -8,8 +8,8 @@ export function ThemeToggle() {
   const [dark, setDark] = useState(true)
 
   useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark)
     document.documentElement.classList.toggle("light", !dark)
-    document.body.classList.toggle("light", !dark)
   }, [dark])
 
   return (
