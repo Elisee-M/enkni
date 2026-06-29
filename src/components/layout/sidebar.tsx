@@ -7,7 +7,7 @@ import {
   BarChart3,
   UserCircle,
   ChevronLeft,
-  Cane,
+  Accessibility,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -37,7 +37,7 @@ export function Sidebar() {
     >
       <div className="flex h-14 items-center gap-2 border-b border-zinc-800 px-3">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600">
-          <Cane className="h-4 w-4 text-white" />
+          <Accessibility className="h-4 w-4 text-white" />
         </div>
         {isOpen && (
           <span className="text-sm font-bold text-zinc-100">ENKONI</span>
