@@ -10,6 +10,7 @@ import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
 import { ReportExport } from "@/components/metrics/report-export"
 import { UserProfileView } from "@/components/profiles/user-profile"
+import { NotificationPreferences } from "@/components/profiles/notification-preferences"
 import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -58,7 +59,16 @@ function ViewContent() {
         </div>
       )
     case "profile":
-      return <UserProfileView />
+      return (
+        <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="flex-1">
+            <UserProfileView />
+          </div>
+          <div className="w-full lg:w-80">
+            <NotificationPreferences />
+          </div>
+        </div>
+      )
     default:
       return null
   }
