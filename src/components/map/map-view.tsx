@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react"
 import dynamic from "next/dynamic"
-import { MapPin, Navigation, Crosshair } from "lucide-react"
+import { MapPin, Navigation, Crosshair, Satellite, Map as MapIcon } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useDashboardStore } from "@/lib/store"
-import { formatDate, formatDistance } from "@/lib/utils"
+import { formatDate } from "@/lib/utils"
 import type { LocationHistoryPoint } from "@/types"
 
 const MapContainer = dynamic(
@@ -48,25 +48,22 @@ function useMapIcon() {
   }, [])
 }
 
-function useLocationIcon(color: string) {
-  return useMemo(() => {
-    if (typeof window === "undefined") return null
-    const L = require("leaflet")
-    return new L.DivIcon({
-      className: "custom-marker-location",
-      html: `<div style="background:${color};width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="${color}" stroke="white" stroke-width="3"><circle cx="12" cy="12" r="6"/></svg></div>`,
-      iconSize: [24, 24],
-      iconAnchor: [12, 12],
-      popupAnchor: [0, -12],
-    })
-  }, [color])
-}
-
 function isBrowser() {
   return typeof window !== "undefined"
 }
 
-function MapContent() {
+const TILE_STYLES = {
+  dark: {
+    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+  },
+  satellite: {
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>',
+  },
+}
+
+function MapContent({ satellite }: { satellite: boolean }) {
   const userIcon = useMapIcon()
   const selectedUser = useDashboardStore((s) => s.getSelectedUser())
   const users = useDashboardStore((s) => s.users)
@@ -74,6 +71,8 @@ function MapContent() {
   const timeRange = useDashboardStore((s) => s.timeRange)
 
   if (!isBrowser() || !userIcon) return null
+
+  const tileStyle = satellite ? TILE_STYLES.satellite : TILE_STYLES.dark
 
   const center = selectedUser
     ? [selectedUser.currentLocation.coordinates.lat, selectedUser.currentLocation.coordinates.lng]
@@ -95,8 +94,9 @@ function MapContent() {
       zoomControl={true}
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+        key={satellite ? "satellite" : "dark"}
+        url={tileStyle.url}
+        attribution={tileStyle.attribution}
       />
 
       {users.map((u, idx) => {
@@ -159,9 +159,9 @@ function MapContent() {
 
 export function MapView() {
   const selectedUser = useDashboardStore((s) => s.getSelectedUser())
-  const toggleAlertPanel = useDashboardStore((s) => s.toggleAlertPanel)
   const setSelectedView = useDashboardStore((s) => s.setSelectedView)
   const [mounted, setMounted] = useState(false)
+  const [satellite, setSatellite] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -169,7 +169,7 @@ export function MapView() {
 
   return (
     <div className="relative h-full min-h-[400px] w-full overflow-hidden rounded-xl">
-      {mounted && <MapContent />}
+      {mounted && <MapContent satellite={satellite} />}
 
       <div className="absolute left-3 top-3 z-[1000] flex flex-col gap-2">
         <Card className="border-zinc-700/50 bg-zinc-900/80 p-3 backdrop-blur-md">
@@ -200,6 +200,15 @@ export function MapView() {
       </div>
 
       <div className="absolute bottom-3 right-3 z-[1000] flex gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setSatellite((s) => !s)}
+          className="bg-zinc-900/80 text-xs backdrop-blur-md"
+        >
+          {satellite ? <MapIcon className="h-3.5 w-3.5" /> : <Satellite className="h-3.5 w-3.5" />}
+          {satellite ? "Map" : "Satellite"}
+        </Button>
         <Button
           variant="ghost"
           size="sm"
