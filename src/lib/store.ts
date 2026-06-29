@@ -7,6 +7,7 @@ import type {
   MonitoredUser,
   Alert,
   LocationData,
+  CaregiverRole,
 } from "@/types"
 import { mockUsers, mockAlerts } from "./mock-data"
 
@@ -22,6 +23,8 @@ interface DashboardStore extends DashboardState {
   addAlert: (alert: Alert) => void
   getSelectedUser: () => MonitoredUser | undefined
   getUnacknowledgedAlerts: () => Alert[]
+  caregiverRole: CaregiverRole
+  setCaregiverRole: (role: CaregiverRole) => void
 }
 
 export const useDashboardStore = create<DashboardStore>((set, get) => ({
@@ -32,6 +35,7 @@ export const useDashboardStore = create<DashboardStore>((set, get) => ({
   isAlertPanelOpen: false,
   selectedView: "map",
   timeRange: 1,
+  caregiverRole: "admin",
 
   setSelectedUser: (userId) => set({ selectedUserId: userId }),
 
@@ -78,6 +82,8 @@ export const useDashboardStore = create<DashboardStore>((set, get) => ({
           : u,
       ),
     })),
+
+  setCaregiverRole: (role) => set({ caregiverRole: role }),
 
   addAlert: (alert) => set((s) => ({ alerts: [alert, ...s.alerts].slice(0, 100) })),
 

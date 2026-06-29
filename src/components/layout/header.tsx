@@ -2,14 +2,15 @@
 
 import { Bell, Menu, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { RoleSwitcher } from "./role-switcher"
 import { useDashboardStore } from "@/lib/store"
 import { cn, formatDate } from "@/lib/utils"
 
 export function Header() {
   const toggleSidebar = useDashboardStore((s) => s.toggleSidebar)
   const toggleAlertPanel = useDashboardStore((s) => s.toggleAlertPanel)
-  const isAlertPanelOpen = useDashboardStore((s) => s.isAlertPanelOpen)
   const unacknowledgedCount = useDashboardStore((s) => s.getUnacknowledgedAlerts().length)
+  const role = useDashboardStore((s) => s.caregiverRole)
 
   return (
     <header className="flex h-14 items-center justify-between border-b border-zinc-800 bg-zinc-950/80 px-4 backdrop-blur-md">
@@ -26,6 +27,7 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-2">
+        <RoleSwitcher />
         <Button
           variant="ghost"
           size="icon"
@@ -46,9 +48,9 @@ export function Header() {
         </Button>
         <div className="flex items-center gap-2 border-l border-zinc-800 pl-2">
           <div className="h-7 w-7 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-semibold text-white">
-            AD
+            {role === "admin" ? "AD" : "VW"}
           </div>
-          <span className="hidden text-sm text-zinc-300 sm:block">Admin</span>
+          <span className="hidden text-sm capitalize text-zinc-300 sm:block">{role}</span>
         </div>
       </div>
     </header>
