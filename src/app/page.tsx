@@ -129,17 +129,17 @@ export default function Home() {
   const setSelectedView = useDashboardStore((s) => s.setSelectedView)
   const toggleAlertPanel = useDashboardStore((s) => s.toggleAlertPanel)
   const { simulateLocationUpdate, simulateBatteryDrain } = useSimulatedUpdates()
-  const users = useDashboardStore((s) => s.users)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      users.forEach((u) => {
-        simulateLocationUpdate(u.id)
-        simulateBatteryDrain(u.id)
+      const ids = useDashboardStore.getState().users.map((u) => u.id)
+      ids.forEach((id) => {
+        simulateLocationUpdate(id)
+        simulateBatteryDrain(id)
       })
     }, 8000)
     return () => clearInterval(interval)
-  }, [users, simulateLocationUpdate, simulateBatteryDrain])
+  }, [simulateLocationUpdate, simulateBatteryDrain])
 
   return (
     <DashboardShell>
