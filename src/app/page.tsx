@@ -11,7 +11,6 @@ import { AlertRulesEngine } from "@/components/alerts/alert-rules"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
 import { ActivityHeatmap } from "@/components/metrics/activity-heatmap"
-import { ReportExport } from "@/components/metrics/report-export"
 import { UserProfileView } from "@/components/profiles/user-profile"
 import { NotificationPreferences } from "@/components/profiles/notification-preferences"
 import { GeofenceEditor } from "@/components/map/geofence-editor"
@@ -152,16 +151,7 @@ function ViewContent() {
   }
 }
 
-const pageTitles: Record<string, string> = {
-  map: "Live Tracking",
-  users: "User Management",
-  alerts: "Alert Center",
-  metrics: "Analytics",
-  profile: "Profile",
-}
-
 export default function Home() {
-  const selectedView = useDashboardStore((s) => s.selectedView)
   const { simulateLocationUpdate, simulateBatteryDrain } = useSimulatedUpdates()
 
   useSpeechSynthesis()
@@ -179,20 +169,7 @@ export default function Home() {
 
   return (
     <DashboardShell>
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-zinc-300">
-          {pageTitles[selectedView]}
-        </span>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(34,197,94,0.5)]" />
-            <span className="text-[10px] font-medium text-emerald-400">Live</span>
-          </div>
-          <ReportExport />
-        </div>
-      </div>
-
-      <div className="mt-4 flex-1">
+      <div className="flex-1">
         <ViewContent />
       </div>
       <AlertPanel />
