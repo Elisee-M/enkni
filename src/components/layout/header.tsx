@@ -3,6 +3,7 @@
 import { Bell, Menu, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { RoleSwitcher } from "./role-switcher"
+import { ThemeToggle } from "./theme-toggle"
 import { useDashboardStore } from "@/lib/store"
 import { cn, formatDate } from "@/lib/utils"
 
@@ -27,6 +28,7 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-2">
+        <ThemeToggle />
         <RoleSwitcher />
         <Button
           variant="ghost"

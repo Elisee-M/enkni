@@ -3,6 +3,19 @@
 :root {
   --background: #09090b;
   --foreground: #e4e4e7;
+  --card-bg: #18181b;
+  --card-border: #27272a;
+  --muted: #52525b;
+  --muted-bg: #18181b;
+}
+
+.light {
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card-bg: #ffffff;
+  --card-border: #e4e4e7;
+  --muted: #a1a1aa;
+  --muted-bg: #f4f4f5;
 }
 
 @theme inline {
@@ -18,11 +31,23 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer base {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #3f3f46 #18181b;
-  }
+body.light .leaflet-container {
+  background: #e4e4e7 !important;
+}
+
+body.light .leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #18181b !important;
+}
+
+body.light .leaflet-control-zoom a {
+  background: #ffffff !important;
+  color: #18181b !important;
+  border-color: #d4d4d8 !important;
+}
+
+body.light .leaflet-control-zoom a:hover {
+  background: #f4f4f5 !important;
 }
 
 .leaflet-container {
@@ -74,8 +99,4 @@ body {
 
 .leaflet-control-attribution {
   display: none !important;
-}
-
-.leaflet-popup-close-button {
-  color: #71717a !important;
 }
