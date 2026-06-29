@@ -13,6 +13,7 @@ import { UserProfileView } from "@/components/profiles/user-profile"
 import { NotificationPreferences } from "@/components/profiles/notification-preferences"
 import { GeofenceEditor } from "@/components/map/geofence-editor"
 import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
+import { useSpeechSynthesis } from "@/lib/use-speech-synthesis"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Map, Users, Bell, BarChart3, UserCircle, RefreshCw } from "lucide-react"
@@ -152,6 +153,8 @@ export default function Home() {
   const setSelectedView = useDashboardStore((s) => s.setSelectedView)
   const toggleAlertPanel = useDashboardStore((s) => s.toggleAlertPanel)
   const { simulateLocationUpdate, simulateBatteryDrain } = useSimulatedUpdates()
+
+  useSpeechSynthesis()
 
   useEffect(() => {
     const interval = setInterval(() => {
