@@ -77,7 +77,7 @@ function MapContent() {
 
   const center = selectedUser
     ? [selectedUser.currentLocation.coordinates.lat, selectedUser.currentLocation.coordinates.lng]
-    : [-1.2864, 36.8172]
+    : [-1.9441, 30.0619]
 
   const getFilteredHistory = (history: LocationHistoryPoint[]) => {
     const now = Date.now()
