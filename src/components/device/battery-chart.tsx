@@ -94,7 +94,7 @@ export function BatteryChart() {
                   fontSize: "12px",
                 }}
                 itemStyle={{ color: "#e4e4e7" }}
-                formatter={(value: number) => [`${value}%`, "Battery"]}
+                formatter={(value) => [`${value}%`, "Battery"]}
               />
               <ReferenceLine
                 y={20}
