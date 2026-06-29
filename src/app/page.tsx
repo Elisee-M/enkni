@@ -5,6 +5,7 @@ import { DashboardShell } from "@/components/layout/dashboard-shell"
 import { MapView } from "@/components/map/map-view"
 import { UserList } from "@/components/users/user-list"
 import { DeviceStatus } from "@/components/device/device-status"
+import { BatteryChart } from "@/components/device/battery-chart"
 import { AlertPanel } from "@/components/alerts/alert-panel"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
@@ -41,6 +42,7 @@ function ViewContent() {
           <div className="flex w-full flex-col gap-4 lg:w-80">
             <UserList />
             <DeviceStatus />
+            <BatteryChart />
           </div>
         </div>
       )
