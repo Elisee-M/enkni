@@ -1,6 +1,6 @@
 "use client"
 
-import { Cane } from "lucide-react"
+import { Accessibility } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useDashboardStore } from "@/lib/store"
 
@@ -15,7 +15,7 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-14 items-center justify-center border-b border-zinc-800/50">
-        <Cane className="h-5 w-5 text-blue-500" />
+        <Accessibility className="h-5 w-5 text-blue-500" />
       </div>
       <div className="flex flex-1 items-center justify-center">
         <span className="text-[8px] font-medium tracking-widest text-zinc-700 [writing-mode:vertical-lr]">

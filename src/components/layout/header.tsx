@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Menu, Cane } from "lucide-react"
+import { Bell, Menu, Accessibility } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { RoleSwitcher } from "./role-switcher"
 import { ThemeToggle } from "./theme-toggle"
@@ -20,7 +20,7 @@ export function Header() {
           <Menu className="h-4 w-4" />
         </Button>
         <div className="flex items-center gap-2">
-          <Cane className="h-4 w-4 text-blue-500 md:hidden" />
+          <Accessibility className="h-4 w-4 text-blue-500 md:hidden" />
           <span className="text-sm font-semibold text-zinc-100">ENKONI</span>
           <span className="hidden text-xs text-zinc-600 sm:inline">| Live Dashboard</span>
         </div>
