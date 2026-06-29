@@ -19,75 +19,16 @@ import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
 import { useSpeechSynthesis } from "@/lib/use-speech-synthesis"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Map, Users, Bell, BarChart3, UserCircle, RefreshCw } from "lucide-react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Map, Users, Bell, BarChart3, UserCircle } from "lucide-react"
 
 const viewTabs = [
-  { id: "map" as const, label: "Map", icon: Map },
-  { id: "users" as const, label: "Users", icon: Users },
-  { id: "alerts" as const, label: "Alerts", icon: Bell },
-  { id: "metrics" as const, label: "Analytics", icon: BarChart3 },
-  { id: "profile" as const, label: "Profile", icon: UserCircle },
+  { id: "map", label: "Map", icon: Map },
+  { id: "users", label: "Users", icon: Users },
+  { id: "alerts", label: "Alerts", icon: Bell },
+  { id: "metrics", label: "Analytics", icon: BarChart3 },
+  { id: "profile", label: "Profile", icon: UserCircle },
 ]
-
-function ViewContent() {
-  const selectedView = useDashboardStore((s) => s.selectedView)
-
-  switch (selectedView) {
-    case "map":
-      return (
-        <div className="flex h-full flex-col gap-4 lg:flex-row">
-          <div className="flex-1">
-            <MapView />
-          </div>
-          <div className="flex w-full flex-col gap-4 lg:w-72">
-            <UserList />
-            <DeviceStatus />
-          </div>
-        </div>
-      )
-    case "users":
-      return (
-        <div className="mx-auto max-w-4xl">
-          <UserList />
-          <div className="mt-4">
-            <DeviceStatus />
-          </div>
-          <div className="mt-4">
-            <BatteryChart />
-          </div>
-        </div>
-      )
-    case "alerts":
-      return (
-        <div className="mx-auto max-w-5xl space-y-4">
-          <AlertFeed />
-          <AlertRulesEngine />
-        </div>
-      )
-    case "metrics":
-      return (
-        <div className="space-y-4">
-          <SafetyMetrics />
-          <div className="grid gap-4 lg:grid-cols-2">
-            <TripTimeline />
-            <ActivityHeatmap />
-          </div>
-        </div>
-      )
-    case "profile":
-      return (
-        <div className="space-y-4">
-          <UserProfileView />
-          <div className="grid gap-4 lg:grid-cols-2">
-            <NotificationPreferences />
-            <GeofenceEditor />
-          </div>
-        </div>
-      )
-    default:
-      return null
-  }
-}
 
 function AlertFeed() {
   const alerts = useDashboardStore((s) => s.alerts)
@@ -163,7 +104,6 @@ function AlertFeed() {
 export default function Home() {
   const selectedView = useDashboardStore((s) => s.selectedView)
   const setSelectedView = useDashboardStore((s) => s.setSelectedView)
-  const toggleAlertPanel = useDashboardStore((s) => s.toggleAlertPanel)
   const { simulateLocationUpdate, simulateBatteryDrain } = useSimulatedUpdates()
 
   useSpeechSynthesis()
@@ -182,44 +122,82 @@ export default function Home() {
   return (
     <DashboardShell>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 rounded-lg bg-zinc-900 p-1">
-          {viewTabs.map((tab) => {
-            const Icon = tab.icon
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedView(tab.id)}
-                className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                  selectedView === tab.id
-                    ? "bg-zinc-700 text-zinc-100"
-                    : "text-zinc-500 hover:text-zinc-300"
-                }`}
-              >
-                <Icon className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">{tab.label}</span>
-              </button>
-            )
-          })}
-        </div>
+        <Tabs value={selectedView} onValueChange={(v) => setSelectedView(v as typeof selectedView)}>
+          <TabsList>
+            {viewTabs.map((tab) => {
+              const Icon = tab.icon
+              return (
+                <TabsTrigger key={tab.id} value={tab.id}>
+                  <Icon className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                </TabsTrigger>
+              )
+            })}
+          </TabsList>
+        </Tabs>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 sm:flex">
-            <RefreshCw className="h-3 w-3 animate-spin text-emerald-500" />
-            <span className="text-[10px] text-zinc-600">Live</span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(34,197,94,0.5)]" />
+            <span className="text-[10px] font-medium text-emerald-400">Live</span>
           </div>
           <ReportExport />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleAlertPanel}
-          >
-            <Bell className="h-3.5 w-3.5" />
-          </Button>
         </div>
       </div>
 
       <div className="mt-4 flex-1">
-        <ViewContent />
+        <Tabs value={selectedView} onValueChange={(v) => setSelectedView(v as typeof selectedView)}>
+          <TabsContent value="map">
+            <div className="flex h-full flex-col gap-4 lg:flex-row">
+              <div className="flex-1">
+                <MapView />
+              </div>
+              <div className="flex w-full flex-col gap-4 lg:w-72">
+                <UserList />
+                <DeviceStatus />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="users">
+            <div className="mx-auto max-w-4xl">
+              <UserList />
+              <div className="mt-4">
+                <DeviceStatus />
+              </div>
+              <div className="mt-4">
+                <BatteryChart />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="alerts">
+            <div className="mx-auto max-w-5xl space-y-4">
+              <AlertFeed />
+              <AlertRulesEngine />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="metrics">
+            <div className="space-y-4">
+              <SafetyMetrics />
+              <div className="grid gap-4 lg:grid-cols-2">
+                <TripTimeline />
+                <ActivityHeatmap />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <div className="space-y-4">
+              <UserProfileView />
+              <div className="grid gap-4 lg:grid-cols-2">
+                <NotificationPreferences />
+                <GeofenceEditor />
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
       <AlertPanel />
     </DashboardShell>
