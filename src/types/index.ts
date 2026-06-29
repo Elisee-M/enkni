@@ -116,9 +116,26 @@ export interface Alert {
   acknowledgedAt?: string
 }
 
+export interface AlertRule {
+  id: string
+  name: string
+  condition: {
+    type: AlertType | "any"
+    severity: AlertSeverity | "any"
+    batteryBelow?: number
+    outsideSafeZone?: boolean
+  }
+  action: {
+    method: "sms" | "email" | "call" | "in_app"
+    notify: string
+  }
+  enabled: boolean
+}
+
 export interface DashboardState {
   users: MonitoredUser[]
   alerts: Alert[]
+  alertRules: AlertRule[]
   selectedUserId: string | null
   isSidebarOpen: boolean
   isAlertPanelOpen: boolean

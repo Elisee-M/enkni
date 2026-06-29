@@ -9,6 +9,7 @@ import type {
   LocationData,
   CaregiverRole,
   GeofenceZone,
+  AlertRule,
 } from "@/types"
 import { mockUsers, mockAlerts } from "./mock-data"
 
@@ -29,6 +30,9 @@ interface DashboardStore extends DashboardState {
   updateGeofenceZones: (userId: string, zones: GeofenceZone[]) => void
   addGeofenceZone: (userId: string, zone: GeofenceZone) => void
   removeGeofenceZone: (userId: string, zoneId: string) => void
+  addAlertRule: (rule: AlertRule) => void
+  removeAlertRule: (ruleId: string) => void
+  toggleAlertRule: (ruleId: string) => void
 }
 
 export const useDashboardStore = create<DashboardStore>((set, get) => ({
@@ -40,6 +44,36 @@ export const useDashboardStore = create<DashboardStore>((set, get) => ({
   selectedView: "map",
   timeRange: 1,
   caregiverRole: "admin",
+  alertRules: [
+    {
+      id: "rule-1",
+      name: "Critical Alert → SMS",
+      condition: { type: "any", severity: "critical" },
+      action: { method: "sms", notify: "Emergency Contact" },
+      enabled: true,
+    },
+    {
+      id: "rule-2",
+      name: "Low Battery → In-App",
+      condition: { type: "low_battery", severity: "warning", batteryBelow: 20 },
+      action: { method: "in_app", notify: "Admin" },
+      enabled: true,
+    },
+    {
+      id: "rule-3",
+      name: "Fall Detected → Call",
+      condition: { type: "fall_detected", severity: "critical" },
+      action: { method: "call", notify: "Emergency Contact" },
+      enabled: true,
+    },
+    {
+      id: "rule-4",
+      name: "Geofence Breach → Email",
+      condition: { type: "geofence_breach", severity: "critical" },
+      action: { method: "email", notify: "Admin" },
+      enabled: false,
+    },
+  ],
 
   setSelectedUser: (userId) => set({ selectedUserId: userId }),
 
@@ -111,6 +145,19 @@ export const useDashboardStore = create<DashboardStore>((set, get) => ({
         u.id === userId
           ? { ...u, geofenceZones: u.geofenceZones.filter((z) => z.id !== zoneId) }
           : u,
+      ),
+    })),
+
+  addAlertRule: (rule) =>
+    set((s) => ({ alertRules: [...s.alertRules, rule] })),
+
+  removeAlertRule: (ruleId) =>
+    set((s) => ({ alertRules: s.alertRules.filter((r) => r.id !== ruleId) })),
+
+  toggleAlertRule: (ruleId) =>
+    set((s) => ({
+      alertRules: s.alertRules.map((r) =>
+        r.id === ruleId ? { ...r, enabled: !r.enabled } : r,
       ),
     })),
 

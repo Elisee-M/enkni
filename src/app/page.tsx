@@ -7,6 +7,7 @@ import { UserList } from "@/components/users/user-list"
 import { DeviceStatus } from "@/components/device/device-status"
 import { BatteryChart } from "@/components/device/battery-chart"
 import { AlertPanel } from "@/components/alerts/alert-panel"
+import { AlertRulesEngine } from "@/components/alerts/alert-rules"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
 import { ActivityHeatmap } from "@/components/metrics/activity-heatmap"
@@ -48,8 +49,13 @@ function ViewContent() {
       )
     case "alerts":
       return (
-        <div className="flex flex-col gap-4">
-          <AlertFeed />
+        <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="min-w-0 flex-[2]">
+            <AlertFeed />
+          </div>
+          <div className="w-full lg:w-80">
+            <AlertRulesEngine />
+          </div>
         </div>
       )
     case "metrics":
