@@ -8,6 +8,7 @@ import { DeviceStatus } from "@/components/device/device-status"
 import { AlertPanel } from "@/components/alerts/alert-panel"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
 import { TripTimeline } from "@/components/metrics/trip-timeline"
+import { ActivityHeatmap } from "@/components/metrics/activity-heatmap"
 import { ReportExport } from "@/components/metrics/report-export"
 import { UserProfileView } from "@/components/profiles/user-profile"
 import { NotificationPreferences } from "@/components/profiles/notification-preferences"
@@ -52,11 +53,12 @@ function ViewContent() {
     case "metrics":
       return (
         <div className="flex flex-col gap-4 lg:flex-row">
-          <div className="flex-1">
+          <div className="min-w-0 flex-[3]">
             <SafetyMetrics />
           </div>
-          <div className="w-full lg:w-80">
+          <div className="flex w-full flex-col gap-4 lg:w-80">
             <TripTimeline />
+            <ActivityHeatmap />
           </div>
         </div>
       )
