@@ -7,6 +7,7 @@ import { UserList } from "@/components/users/user-list"
 import { DeviceStatus } from "@/components/device/device-status"
 import { AlertPanel } from "@/components/alerts/alert-panel"
 import { SafetyMetrics } from "@/components/metrics/safety-metrics"
+import { TripTimeline } from "@/components/metrics/trip-timeline"
 import { UserProfileView } from "@/components/profiles/user-profile"
 import { useDashboardStore, useSimulatedUpdates } from "@/lib/store"
 import { Button } from "@/components/ui/button"
@@ -45,7 +46,16 @@ function ViewContent() {
         </div>
       )
     case "metrics":
-      return <SafetyMetrics />
+      return (
+        <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="flex-1">
+            <SafetyMetrics />
+          </div>
+          <div className="w-full lg:w-80">
+            <TripTimeline />
+          </div>
+        </div>
+      )
     case "profile":
       return <UserProfileView />
     default:
